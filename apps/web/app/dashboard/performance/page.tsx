@@ -1,12 +1,12 @@
 import { getDemoRepository } from "../../../lib/demo-repository";
 
 const FIELDS = [
-  ["views", "Views"],
-  ["searches", "Searches"],
-  ["calls", "Calls"],
-  ["websiteClicks", "Website Clicks"],
-  ["directions", "Directions"],
-  ["bookings", "Bookings"],
+  ["views", "Visualizações"],
+  ["searches", "Buscas"],
+  ["calls", "Ligações"],
+  ["websiteClicks", "Cliques no site"],
+  ["directions", "Rotas traçadas"],
+  ["bookings", "Agendamentos"],
 ] as const;
 
 export default async function PerformancePage() {
@@ -14,14 +14,20 @@ export default async function PerformancePage() {
 
   return (
     <div>
-      <h1>Performance</h1>
+      <div className="page-header">
+        <h1>Desempenho</h1>
+        <p>
+          Inserido manualmente até que a Google Business Profile API esteja
+          disponível — veja <a href="/dashboard/help">Glossário</a> para o porquê.
+        </p>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Metric</th>
-            <th>Current period</th>
-            <th>Previous period</th>
-            <th>Change</th>
+            <th>Métrica</th>
+            <th>Período atual</th>
+            <th>Período anterior</th>
+            <th>Variação</th>
           </tr>
         </thead>
         <tbody>
@@ -32,16 +38,16 @@ export default async function PerformancePage() {
                 <td>{label}</td>
                 <td>{performance.current[key]}</td>
                 <td>{performance.previous[key]}</td>
-                <td>{change === null || change === undefined ? "—" : `${change > 0 ? "+" : ""}${change}%`}</td>
+                <td>
+                  {change === null || change === undefined
+                    ? "—"
+                    : `${change > 0 ? "+" : ""}${change}%`}
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <p style={{ color: "var(--muted)" }}>
-        Entered manually until Google Business Profile API access is
-        available — see docs/GOOGLE_API.md.
-      </p>
     </div>
   );
 }

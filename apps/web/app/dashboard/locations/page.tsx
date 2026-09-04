@@ -5,15 +5,18 @@ export default async function LocationsPage() {
 
   return (
     <div>
-      <h1>Locations</h1>
+      <div className="page-header">
+        <h1>Unidades</h1>
+        <p>Uma linha por unidade física atendida. Cada uma carrega seu próprio score de auditoria.</p>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Category</th>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>Categoria</th>
             <th>Status</th>
-            <th>Booking URL</th>
+            <th>Link de agendamento</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +27,7 @@ export default async function LocationsPage() {
             </td>
             <td>{location.primaryCategory}</td>
             <td>{location.status}</td>
-            <td>{location.bookingUrl ?? "— missing —"}</td>
+            <td>{location.bookingUrl ?? "— não configurado —"}</td>
           </tr>
         </tbody>
       </table>

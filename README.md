@@ -56,6 +56,8 @@ pnpm build
 
 ## Documentation
 
+- [docs/USER_GUIDE.md](docs/USER_GUIDE.md) — how to use the dashboard, day to day
+- [docs/GLOSSARY.md](docs/GLOSSARY.md) — every term used in the product, defined
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/AUDIT_SCORE.md](docs/AUDIT_SCORE.md)
 - [docs/DATA_MODEL.md](docs/DATA_MODEL.md)

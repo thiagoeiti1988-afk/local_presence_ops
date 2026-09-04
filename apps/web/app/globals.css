@@ -1,14 +1,104 @@
 :root {
-  color-scheme: light dark;
-  --bg: #0b0c0f;
-  --fg: #e8e8ea;
-  --muted: #9a9aa2;
-  --card: #16171c;
-  --border: #2a2b31;
-  --accent: #4f8cff;
-  --ok: #3fbf7f;
-  --warn: #e0a838;
-  --fail: #e0554f;
+  color-scheme: light;
+  --bg: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-raised: #ffffff;
+  --border: rgba(11, 11, 11, 0.1);
+  --border-strong: #e1e0d9;
+
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+
+  --accent: #2a78d6;
+  --accent-strong: #184f95;
+
+  /* Status palette — fixed, never themed. See dataviz skill palette.md. */
+  --status-good: #0ca30c;
+  --status-good-bg: rgba(12, 163, 12, 0.12);
+  --status-warning: #b5790f;
+  --status-warning-bg: rgba(250, 178, 25, 0.18);
+  --status-serious: #c15a34;
+  --status-serious-bg: rgba(236, 131, 90, 0.16);
+  --status-critical: #d03b3b;
+  --status-critical-bg: rgba(208, 59, 59, 0.12);
+
+  --delta-good: #006300;
+  --delta-bad: #b5302f;
+
+  /* Sequential blue ramp, light->dark, for meters/fills */
+  --seq-100: #cde2fb;
+  --seq-300: #6da7ec;
+  --seq-450: #2a78d6;
+  --seq-600: #184f95;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-raised: #202020;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: #2c2c2a;
+
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+
+    --accent: #3987e5;
+    --accent-strong: #86b6ef;
+
+    --status-good: #0ca30c;
+    --status-good-bg: rgba(12, 163, 12, 0.2);
+    --status-warning: #fab219;
+    --status-warning-bg: rgba(250, 178, 25, 0.18);
+    --status-serious: #ec835a;
+    --status-serious-bg: rgba(236, 131, 90, 0.18);
+    --status-critical: #e66767;
+    --status-critical-bg: rgba(230, 103, 103, 0.18);
+
+    --delta-good: #0ca30c;
+    --delta-bad: #e66767;
+
+    --seq-100: #184f95;
+    --seq-300: #256abf;
+    --seq-450: #3987e5;
+    --seq-600: #9ec5f4;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-raised: #202020;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: #2c2c2a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+
+  --accent: #3987e5;
+  --accent-strong: #86b6ef;
+
+  --status-good: #0ca30c;
+  --status-good-bg: rgba(12, 163, 12, 0.2);
+  --status-warning: #fab219;
+  --status-warning-bg: rgba(250, 178, 25, 0.18);
+  --status-serious: #ec835a;
+  --status-serious-bg: rgba(236, 131, 90, 0.18);
+  --status-critical: #e66767;
+  --status-critical-bg: rgba(230, 103, 103, 0.18);
+
+  --delta-good: #0ca30c;
+  --delta-bad: #e66767;
+
+  --seq-100: #184f95;
+  --seq-300: #256abf;
+  --seq-450: #3987e5;
+  --seq-600: #9ec5f4;
 }
 
 * {
@@ -18,7 +108,7 @@
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--fg);
+  color: var(--text-primary);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -26,29 +116,84 @@ a {
   color: var(--accent);
 }
 
-nav.topnav {
+/* ---------- Layout ---------- */
+
+.app-shell {
   display: flex;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
+  min-height: 100vh;
 }
 
-nav.topnav a {
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-strong);
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-brand {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0 0.5rem 1rem;
+}
+
+.sidebar-group-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.sidebar a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  color: var(--text-secondary);
   text-decoration: none;
-  color: var(--fg);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
-nav.topnav a:hover {
-  color: var(--accent);
+.sidebar a:hover {
+  background: var(--border);
+  color: var(--text-primary);
 }
 
-main {
-  padding: 1.5rem;
-  max-width: 1100px;
-  margin: 0 auto;
+.sidebar a.active {
+  background: var(--accent);
+  color: white;
 }
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 1.75rem 2rem;
+  max-width: 1180px;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: none;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .sidebar-brand,
+  .sidebar-group-label {
+    display: none;
+  }
+  .app-content {
+    padding: 1.25rem;
+  }
+}
+
+/* ---------- Primitives ---------- */
 
 .grid {
   display: grid;
@@ -57,47 +202,159 @@ main {
 }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
   padding: 1rem;
 }
 
-.stat-label {
-  color: var(--muted);
-  font-size: 0.8rem;
+.page-header {
+  margin-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.25rem;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+/* ---------- Stat tile (dataviz skill: label / value / delta / trend) ---------- */
+
+.stat-tile .stat-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
-.stat-value {
+.stat-tile .stat-value {
   font-size: 1.8rem;
   font-weight: 600;
   margin-top: 0.25rem;
+  color: var(--text-primary);
 }
 
-.badge {
-  display: inline-block;
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
+.stat-tile .stat-delta {
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
   font-weight: 600;
 }
 
-.badge.pass {
-  background: color-mix(in srgb, var(--ok) 20%, transparent);
-  color: var(--ok);
+.stat-tile .stat-delta.positive {
+  color: var(--delta-good);
 }
 
+.stat-tile .stat-delta.negative {
+  color: var(--delta-bad);
+}
+
+.stat-tile .stat-delta.flat {
+  color: var(--text-muted);
+}
+
+/* ---------- Meter (dataviz skill: fill = severity, track = lighter step) ---------- */
+
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.meter-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.meter-head .meter-name {
+  color: var(--text-secondary);
+}
+
+.meter-head .meter-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.meter-track {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--seq-100);
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.meter-fill.good {
+  background: var(--status-good);
+}
+.meter-fill.warning {
+  background: var(--status-warning);
+}
+.meter-fill.serious {
+  background: var(--status-serious);
+}
+.meter-fill.critical {
+  background: var(--status-critical);
+}
+.meter-fill.neutral {
+  background: var(--seq-450);
+}
+
+.meter.hero .meter-track {
+  height: 22px;
+}
+
+.meter.hero .meter-value {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+/* ---------- Status badge: icon + label, never color alone ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge.good {
+  background: var(--status-good-bg);
+  color: var(--status-good);
+}
 .badge.warning {
-  background: color-mix(in srgb, var(--warn) 20%, transparent);
-  color: var(--warn);
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+}
+.badge.serious {
+  background: var(--status-serious-bg);
+  color: var(--status-serious);
+}
+.badge.critical {
+  background: var(--status-critical-bg);
+  color: var(--status-critical);
 }
 
-.badge.fail {
-  background: color-mix(in srgb, var(--fail) 20%, transparent);
-  color: var(--fail);
-}
+/* ---------- Tables ---------- */
 
 table {
   width: 100%;
@@ -105,19 +362,22 @@ table {
   margin-top: 1rem;
 }
 
-th, td {
+th,
+td {
   text-align: left;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border-strong);
   font-size: 0.9rem;
 }
 
 th {
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 500;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
 }
+
+/* ---------- Forms ---------- */
 
 form.audit-form {
   display: flex;
@@ -131,14 +391,16 @@ form.audit-form label {
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
-form.audit-form input {
+form.audit-form input,
+form.audit-form select {
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--fg);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
 }
 
 button.primary {
@@ -152,7 +414,28 @@ button.primary {
   width: fit-content;
 }
 
-.section-title {
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
+/* ---------- Glossary / help ---------- */
+
+.glossary-term {
+  margin: 0 0 1.5rem;
+}
+
+.glossary-term dt {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.glossary-term dd {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.callout {
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }

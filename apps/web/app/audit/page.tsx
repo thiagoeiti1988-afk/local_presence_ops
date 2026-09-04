@@ -3,13 +3,15 @@ import { AuditForm } from "./audit-form";
 export default function PublicAuditPage() {
   return (
     <div>
-      <h1>Free Local Presence Audit</h1>
-      <p style={{ color: "var(--muted)", maxWidth: 560 }}>
-        Fill in what you observe on the business&apos;s Google Business
-        Profile (Search/Maps) — this tool does not scrape Google
-        automatically. The score below is computed deterministically from
-        what you enter.
-      </p>
+      <div className="page-header">
+        <h1>Auditoria gratuita de presença local</h1>
+        <p>
+          Preencha o que você observa no Google Business Profile do
+          negócio (Busca/Maps) — esta ferramenta não faz scraping automático
+          do Google. O score abaixo é calculado de forma determinística a
+          partir do que você digitar.
+        </p>
+      </div>
       <AuditForm />
     </div>
   );

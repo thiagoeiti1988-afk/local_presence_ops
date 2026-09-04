@@ -1,32 +1,29 @@
-import { getDemoRepository } from "../../../lib/demo-repository";
-
-const STATUS_BADGE: Record<string, string> = {
-  new: "fail",
-  drafted: "warning",
-  approved: "warning",
-  replied: "pass",
-  escalated: "fail",
-};
+import { getDemoRepository, DEMO_AGGREGATES } from "../../../lib/demo-repository";
+import { StatusBadge } from "../../../components/StatusBadge";
+import { reviewStatus } from "../../../lib/status";
 
 export default async function ReviewsPage() {
   const { reviews } = await getDemoRepository();
 
   return (
     <div>
-      <h1>Reviews</h1>
-      <p style={{ color: "var(--muted)" }}>
-        Showing the latest {reviews.length} of 67 reviews on record. Negative
-        reviews always require human approval before a reply is published —
-        see docs/REVIEWS.md.
-      </p>
+      <div className="page-header">
+        <h1>Avaliações</h1>
+        <p>
+          Exibindo as {reviews.length} mais recentes de {DEMO_AGGREGATES.reviewCount}{" "}
+          no total. Avaliações negativas sempre exigem aprovação humana antes de
+          publicar a resposta — nunca é automático. Veja o fluxo completo no{" "}
+          <a href="/dashboard/help">Glossário</a>.
+        </p>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Author</th>
-            <th>Rating</th>
-            <th>Comment</th>
+            <th>Autor</th>
+            <th>Nota</th>
+            <th>Comentário</th>
             <th>Status</th>
-            <th>Draft reply</th>
+            <th>Rascunho de resposta</th>
           </tr>
         </thead>
         <tbody>
@@ -36,9 +33,7 @@ export default async function ReviewsPage() {
               <td>{"★".repeat(review.rating)}</td>
               <td>{review.comment ?? "—"}</td>
               <td>
-                <span className={`badge ${STATUS_BADGE[review.status] ?? "warning"}`}>
-                  {review.status}
-                </span>
+                <StatusBadge {...reviewStatus(review.status)} />
               </td>
               <td>{review.reply ?? "—"}</td>
             </tr>
