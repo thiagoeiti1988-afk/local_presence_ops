@@ -1,4 +1,5 @@
 import type { LocalPresenceAudit } from "@local-presence-ops/audit";
+import type { FollowUpOffsetHours, LeadStatus } from "@local-presence-ops/followup";
 
 export interface Lead {
   id: string;
@@ -6,8 +7,11 @@ export interface Lead {
   city: string;
   website: string | null;
   googleProfileUrl: string | null;
+  phone: string | null;
   score: number;
   createdAt: string;
+  status: LeadStatus;
+  sentFollowUps: FollowUpOffsetHours[];
 }
 
 const MAX_LEADS = 200;
@@ -37,10 +41,14 @@ function store(): Lead[] {
   return globalThis.__localPresenceOpsLeads;
 }
 
-export function recordLead(input: Omit<Lead, "id" | "createdAt">): Lead {
+export function recordLead(
+  input: Omit<Lead, "id" | "createdAt" | "status" | "sentFollowUps">,
+): Lead {
   const lead: Lead = {
     id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
+    status: "new",
+    sentFollowUps: [],
     ...input,
   };
   const leads = store();
@@ -53,15 +61,43 @@ export function listLeads(): Lead[] {
   return [...store()].reverse();
 }
 
+export function getLead(id: string): Lead | undefined {
+  return store().find((lead) => lead.id === id);
+}
+
+/** Human confirms a follow-up step was actually sent (see docs/WHATSAPP.md — there is no delivery webhook in manual mode). */
+export function markFollowUpSent(id: string, offsetHours: FollowUpOffsetHours): Lead | undefined {
+  const lead = getLead(id);
+  if (!lead) return undefined;
+  if (!lead.sentFollowUps.includes(offsetHours)) {
+    lead.sentFollowUps = [...lead.sentFollowUps, offsetHours].sort((a, b) => a - b);
+  }
+  return lead;
+}
+
+export function setLeadStatus(id: string, status: LeadStatus): Lead | undefined {
+  const lead = getLead(id);
+  if (!lead) return undefined;
+  lead.status = status;
+  return lead;
+}
+
 export function buildLeadFromAudit(
   audit: LocalPresenceAudit,
-  fields: { businessName: string; city: string; website: string | null; googleProfileUrl: string | null },
+  fields: {
+    businessName: string;
+    city: string;
+    website: string | null;
+    googleProfileUrl: string | null;
+    phone: string | null;
+  },
 ): Lead {
   return recordLead({
     businessName: fields.businessName,
     city: fields.city,
     website: fields.website,
     googleProfileUrl: fields.googleProfileUrl,
+    phone: fields.phone,
     score: audit.score,
   });
 }

@@ -26,10 +26,16 @@ API configurada).
 resposta padrão; precisa de uma decisão específica de alguém, fora do fluxo
 automático de rascunho.
 
+**Fila de follow-up** — os leads agrupados por urgência em
+`/dashboard/leads`: Atrasado (passou da hora), Próximas 24h, Agendado,
+Concluído. Calculada por `packages/followup` a partir de quando o lead
+chegou — nunca por um humano marcando manualmente a urgência.
+
 **Lead** — um registro criado automaticamente sempre que alguém roda uma
-auditoria no formulário público (`/audit`). Aparece em `/dashboard/leads`.
-Hoje vive em memória (some em um novo deploy) até haver um Supabase real
-conectado — ver `supabase/migrations/0002_leads.sql`.
+auditoria no formulário público (`/audit`). Aparece em `/dashboard/leads`,
+já dentro da fila de follow-up T+0/T+24h/T+72h. Hoje vive em memória (some
+em um novo deploy) até haver um Supabase real conectado — ver
+`supabase/migrations/0002_leads.sql`.
 
 **Local Presence Score** — a nota de 0 a 100 que resume a presença de uma
 unidade no Google. Determinística (sem IA no cálculo) — ver
@@ -74,3 +80,9 @@ no mesmo banco de dados. Toda tabela carrega um `client_id`; ver
 
 **Unidade (Location)** — um endereço físico/serviço específico de um
 Cliente, com seu próprio perfil do Google e seu próprio score.
+
+**WhatsAppProvider** — a interface que abstrai o envio de mensagem no
+WhatsApp. `ManualWhatsAppProvider` (o padrão hoje) gera um link `wa.me` que
+um humano confirma o envio; `MetaWhatsAppProvider` é um esqueleto que só
+funciona quando houver número comercial e template aprovados pela Meta —
+ver [WHATSAPP.md](WHATSAPP.md).

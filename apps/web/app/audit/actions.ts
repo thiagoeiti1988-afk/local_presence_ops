@@ -99,6 +99,7 @@ export async function runManualAudit(
     city: input.city,
     website: sanitizeUrl(input.website ?? null),
     googleProfileUrl: sanitizeUrl(input.googleProfileUrl ?? null),
+    phone: input.phone ?? null,
   });
 
   return { audit, businessName: input.businessName };

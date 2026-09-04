@@ -5,6 +5,7 @@ const nextConfig = {
     "@local-presence-ops/audit",
     "@local-presence-ops/config",
     "@local-presence-ops/content",
+    "@local-presence-ops/followup",
     "@local-presence-ops/profiles",
     "@local-presence-ops/providers",
     "@local-presence-ops/reports",

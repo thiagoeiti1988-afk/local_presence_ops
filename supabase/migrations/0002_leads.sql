@@ -13,8 +13,17 @@ create table if not exists leads (
   city text not null,
   website text,
   google_profile_url text,
+  phone text,
 
   score smallint not null check (score between 0 and 100),
+
+  -- Drives the follow-up queue in packages/followup — see docs/WHATSAPP.md.
+  status text not null default 'new'
+    check (status in ('new', 'contacted', 'qualified', 'lost')),
+  -- Which of the fixed T+0/T+24h/T+72h steps a human confirmed sending.
+  -- Confirmed by a human, not a delivery webhook, in the current
+  -- ManualWhatsAppProvider (wa.me) mode.
+  sent_follow_ups smallint[] not null default '{}',
 
   created_at timestamptz not null default now()
 );

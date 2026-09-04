@@ -64,6 +64,7 @@ pnpm build
 - [docs/REVIEWS.md](docs/REVIEWS.md)
 - [docs/CONTENT.md](docs/CONTENT.md)
 - [docs/GOOGLE_API.md](docs/GOOGLE_API.md)
+- [docs/WHATSAPP.md](docs/WHATSAPP.md) — follow-up channel: manual wa.me today, Meta Cloud API skeleton for later
 - [docs/SECURITY.md](docs/SECURITY.md)
 - [docs/ADDING_CLIENT.md](docs/ADDING_CLIENT.md)
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)

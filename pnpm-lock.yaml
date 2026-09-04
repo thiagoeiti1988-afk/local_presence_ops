@@ -63,6 +63,9 @@ importers:
       '@local-presence-ops/content':
         specifier: workspace:*
         version: link:../../packages/content
+      '@local-presence-ops/followup':
+        specifier: workspace:*
+        version: link:../../packages/followup
       '@local-presence-ops/profiles':
         specifier: workspace:*
         version: link:../../packages/profiles
@@ -142,6 +145,16 @@ importers:
       '@local-presence-ops/reviews':
         specifier: workspace:*
         version: link:../reviews
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/followup:
+    dependencies:
       zod:
         specifier: ^3.24.1
         version: 3.25.76

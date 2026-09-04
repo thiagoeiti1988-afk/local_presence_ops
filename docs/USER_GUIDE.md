@@ -89,9 +89,20 @@ mesmo tempo. Veja [AUDIT_SCORE.md](AUDIT_SCORE.md) antes de mexer.
 
 **O formulário público em `/audit` salva os dados em algum lugar?**
 Sim — cada auditoria roda o cálculo na hora **e** grava um lead (nome do
-negócio, cidade, score, links) na lista em `/dashboard/leads`. Essa lista
-hoje vive na memória do processo do servidor: funciona para acompanhar
-prospects no dia a dia, mas some se o app reiniciar ou for feito um novo
-deploy — para persistência de verdade entre deploys, é preciso conectar um
-Supabase real (tabela `leads`, já criada em
+negócio, cidade, telefone, score, links) na lista em `/dashboard/leads`,
+já dentro da fila de follow-up T+0/T+24h/T+72h (ver seção abaixo). Essa
+lista hoje vive na memória do processo do servidor: funciona para
+acompanhar prospects no dia a dia, mas some se o app reiniciar ou for
+feito um novo deploy — para persistência de verdade entre deploys, é
+preciso conectar um Supabase real (tabela `leads`, já criada em
 `supabase/migrations/0002_leads.sql`).
+
+**Como funciona a fila de follow-up de leads?**
+Todo lead recém-chegado entra automaticamente em três lembretes — T+0
+(assim que chega), T+24h e T+72h — mesmo modelo do projeto `lead_rescuer`.
+Em `/dashboard/leads`, cada lead aparece agrupado por urgência (Atrasado /
+Próximas 24h / Agendado) com um link "Abrir WhatsApp" já com a mensagem do
+passo atual preenchida (`wa.me`, sem precisar de API da Meta) — você clica,
+manda, e confirma na tela que enviou. Sem telefone cadastrado, o link some
+e o lead precisa ser contatado por outro canal. Ver
+[WHATSAPP.md](WHATSAPP.md) para como isso evolui pra um bot de verdade.
