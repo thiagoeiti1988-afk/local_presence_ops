@@ -52,6 +52,12 @@ unidade no Google. Determinística (sem IA no cálculo) — ver
 para as notas de cada seção da auditoria; a cor da barra muda por faixa
 (bom/atenção/sério/crítico).
 
+**Relatório mensal (Monthly Report)** — a página em `/dashboard/report` que
+resume score, avaliações, desempenho, pendências e recomendações de um
+período, pronta para enviar ao cliente. Exportar em PDF é feito pelo
+próprio navegador (`/dashboard/report/print` + Ctrl/Cmd+P) — ver
+`packages/reports`.
+
 **Post (LocalPost)** — uma publicação (atualização, oferta ou evento) para o
 perfil do Google. Estados: rascunho → aprovado → publicado.
 

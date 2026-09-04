@@ -40,8 +40,8 @@ function presence(
     key,
     label,
     present ? "pass" : "fail",
-    present ? `${label} is set.` : `${label} is missing.`,
-    present ? "No action needed." : fixHint,
+    present ? `${label} preenchido.` : `${label} não informado.`,
+    present ? "Nenhuma ação necessária." : fixHint,
   );
 }
 
@@ -49,74 +49,74 @@ function profileCompletenessItems(input: AuditInput): AuditItem[] {
   return [
     presence(
       "businessName",
-      "Business name",
+      "Nome do negócio",
       input.businessName,
-      "Add the exact legal/trading name as it appears on the storefront.",
+      "Adicione o nome exatamente como aparece na fachada/documentação.",
     ),
     presence(
       "category",
-      "Primary category",
+      "Categoria principal",
       input.category,
-      "Set a primary category that matches the main service offered.",
+      "Defina uma categoria principal que corresponda ao serviço central oferecido.",
     ),
     presence(
       "address",
-      "Address",
+      "Endereço",
       input.address,
-      "Add a complete, verifiable street address.",
+      "Adicione um endereço completo e verificável.",
     ),
     presence(
       "phone",
-      "Phone number",
+      "Telefone",
       input.phone,
-      "Add a local phone number customers can call directly.",
+      "Adicione um telefone local para contato direto do cliente.",
     ),
     presence(
       "website",
       "Website",
       input.website,
-      "Link a working website or booking page.",
+      "Vincule um site ou página de agendamento funcionando.",
     ),
     item(
       "openingHours",
-      "Opening hours",
+      "Horário de funcionamento",
       input.openingHoursComplete === true
         ? "pass"
         : input.openingHoursComplete === false
           ? "fail"
           : "fail",
       input.openingHoursComplete
-        ? "Opening hours are complete."
-        : "Opening hours are missing or incomplete.",
+        ? "Horário de funcionamento completo."
+        : "Horário de funcionamento ausente ou incompleto.",
       input.openingHoursComplete
-        ? "No action needed."
-        : "Fill in opening hours for every day, including holiday exceptions.",
+        ? "Nenhuma ação necessária."
+        : "Preencha o horário de todos os dias, incluindo exceções em feriados.",
     ),
     presence(
       "description",
-      "Business description",
+      "Descrição do negócio",
       input.description,
-      "Write a description covering what the business does and who it serves.",
+      "Escreva uma descrição cobrindo o que o negócio faz e para quem atende.",
     ),
     item(
       "services",
-      "Services listed",
+      "Serviços listados",
       input.services && input.services.length > 0 ? "pass" : "fail",
       input.services && input.services.length > 0
-        ? `${input.services.length} service(s) listed.`
-        : "No services listed.",
-      "List the specific services offered, not just the category.",
+        ? `${input.services.length} serviço(s) listado(s).`
+        : "Nenhum serviço listado.",
+      "Liste os serviços específicos oferecidos, não apenas a categoria.",
     ),
     item(
       "photos",
-      "Photos",
+      "Fotos",
       (input.photoCount ?? 0) >= 10
         ? "pass"
         : (input.photoCount ?? 0) > 0
           ? "warning"
           : "fail",
-      `${input.photoCount ?? 0} photo(s) on the profile.`,
-      "Add at least 10 recent, real photos of the business, staff, and work.",
+      `${input.photoCount ?? 0} foto(s) no perfil.`,
+      "Adicione pelo menos 10 fotos reais e recentes do negócio, da equipe e dos trabalhos.",
     ),
   ];
 }
@@ -129,14 +129,14 @@ function reputationItems(input: AuditInput): AuditItem[] {
   return [
     item(
       "reviewCount",
-      "Review volume",
+      "Volume de avaliações",
       reviewCount >= 20 ? "pass" : reviewCount >= 5 ? "warning" : "fail",
-      `${reviewCount} review(s) collected.`,
-      "Ask recent happy customers directly for a review; aim for a steady trickle, not a spike.",
+      `${reviewCount} avaliação(ões) coletada(s).`,
+      "Peça avaliação diretamente a clientes satisfeitos recentes; busque um fluxo constante, não um pico único.",
     ),
     item(
       "averageRating",
-      "Average rating",
+      "Nota média",
       rating === null || rating === undefined
         ? "fail"
         : rating >= 4.5
@@ -145,15 +145,15 @@ function reputationItems(input: AuditInput): AuditItem[] {
             ? "warning"
             : "fail",
       rating === null || rating === undefined
-        ? "No rating available."
-        : `Average rating is ${rating.toFixed(1)}.`,
-      "Resolve recurring complaints found in reviews before asking for more of them.",
+        ? "Nota média não disponível."
+        : `Nota média é ${rating.toFixed(1)}.`,
+      "Resolva as reclamações recorrentes encontradas nas avaliações antes de pedir mais avaliações.",
     ),
     item(
       "unansweredReviews",
-      "Unanswered reviews",
-      // A null/undefined count means "not observed", not "zero unanswered" —
-      // only a confirmed 0 counts as a pass.
+      "Avaliações sem resposta",
+      // Um valor null/undefined significa "não observado", não "zero sem
+      // resposta" — só um 0 confirmado conta como aprovado.
       unanswered === null || unanswered === undefined
         ? "fail"
         : unanswered === 0
@@ -162,9 +162,9 @@ function reputationItems(input: AuditInput): AuditItem[] {
             ? "warning"
             : "fail",
       unanswered === null || unanswered === undefined
-        ? "Unanswered review count not observed."
-        : `${unanswered} unanswered review(s).`,
-      "Reply to every review, starting with the negative ones (see docs/REVIEWS.md).",
+        ? "Contagem de avaliações sem resposta não observada."
+        : `${unanswered} avaliação(ões) sem resposta.`,
+      "Responda a todas as avaliações, começando pelas negativas (ver docs/REVIEWS.md).",
     ),
   ];
 }
@@ -174,7 +174,7 @@ function contentActivityItems(input: AuditInput): AuditItem[] {
   return [
     item(
       "latestPost",
-      "Latest post",
+      "Última publicação",
       days === null || days === undefined
         ? "fail"
         : days <= 30
@@ -183,9 +183,9 @@ function contentActivityItems(input: AuditInput): AuditItem[] {
             ? "warning"
             : "fail",
       days === null || days === undefined
-        ? "No posts found."
-        : `Last post was ${days} day(s) ago.`,
-      "Publish at least one update or offer per month.",
+        ? "Nenhuma publicação encontrada."
+        : `Última publicação foi há ${days} dia(s).`,
+      "Publique ao menos uma atualização ou oferta por mês.",
     ),
   ];
 }
@@ -194,21 +194,21 @@ function conversionReadinessItems(input: AuditInput): AuditItem[] {
   return [
     presence(
       "bookingUrl",
-      "Booking link",
+      "Link de agendamento",
       input.bookingUrl,
-      "Add a direct booking or scheduling link.",
+      "Adicione um link direto de agendamento/reserva.",
     ),
     presence(
       "website",
-      "Website (conversion path)",
+      "Website (caminho de conversão)",
       input.website,
-      "Link a website or landing page a customer can act on.",
+      "Vincule um site ou landing page onde o cliente possa agir.",
     ),
     presence(
       "phone",
-      "Phone (conversion path)",
+      "Telefone (caminho de conversão)",
       input.phone,
-      "Add a phone number so customers can call directly from Search/Maps.",
+      "Adicione um telefone para o cliente ligar diretamente pela Busca/Maps.",
     ),
   ];
 }

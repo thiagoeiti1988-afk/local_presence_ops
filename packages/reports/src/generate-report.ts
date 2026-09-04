@@ -37,10 +37,10 @@ function severityRank(severity: "low" | "medium" | "high"): number {
 function buildSummary(input: GenerateReportInput): string {
   const change =
     input.previousScore === null
-      ? "This is the first recorded score."
-      : `Score moved from ${input.previousScore} to ${input.audit.score} since last month.`;
+      ? "Esta é a primeira nota registrada."
+      : `A nota foi de ${input.previousScore} para ${input.audit.score} desde o mês passado.`;
 
-  return `${input.locationName}'s Local Presence Score is ${input.audit.score}/100. ${change} ${input.reviews.unansweredReviews} review(s) still need a reply.`;
+  return `O Local Presence Score de ${input.locationName} é ${input.audit.score}/100. ${change} ${input.reviews.unansweredReviews} avaliação(ões) ainda precisam de resposta.`;
 }
 
 export function generateMonthlyReport(input: GenerateReportInput): MonthlyReport {
