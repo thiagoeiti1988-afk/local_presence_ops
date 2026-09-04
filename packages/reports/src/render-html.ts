@@ -34,6 +34,8 @@ export function renderMonthlyReportHtml(report: MonthlyReport): string {
 <head>
 <meta charset="utf-8" />
 <title>Relatório mensal — ${escapeHtml(report.locationName)}</title>
+<link rel="icon" href="data:,">
+
 <style>
   body { font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 720px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.5; }
   h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
