@@ -1,0 +1,18 @@
+{
+  "name": "@local-presence-ops/reports",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@local-presence-ops/analytics": "workspace:*",
+    "@local-presence-ops/audit": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

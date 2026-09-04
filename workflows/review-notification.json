@@ -1,0 +1,36 @@
+{
+  "name": "review-notification (example)",
+  "description": "Illustrates how an external n8n instance could notify staff when a new review needs attention. Business logic (classification, workflow, approval) stays in the app — this workflow only reacts to an event and sends a message.",
+  "nodes": [
+    {
+      "name": "Webhook: review.created",
+      "type": "n8n-nodes-base.webhook",
+      "notes": "POST payload: { reviewId, locationId, rating, sentiment, author }",
+      "parameters": {
+        "path": "local-presence-ops/review-created",
+        "httpMethod": "POST"
+      }
+    },
+    {
+      "name": "IF negative",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "string": [{ "value1": "={{$json[\"sentiment\"]}}", "value2": "negative" }]
+        }
+      }
+    },
+    {
+      "name": "Notify staff (Slack/email)",
+      "type": "n8n-nodes-base.slack",
+      "notes": "Send a message linking back to /dashboard/reviews so a human approves the reply — this workflow never publishes a reply itself.",
+      "parameters": {
+        "text": "New negative review from {{$json[\"author\"]}} needs a reply approval: {{$json[\"reviewId\"]}}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook: review.created": { "main": [[{ "node": "IF negative", "type": "main", "index": 0 }]] },
+    "IF negative": { "main": [[{ "node": "Notify staff (Slack/email)", "type": "main", "index": 0 }]] }
+  }
+}

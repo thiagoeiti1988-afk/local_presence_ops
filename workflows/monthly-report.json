@@ -1,0 +1,34 @@
+{
+  "name": "monthly-report (example)",
+  "description": "Illustrates a scheduled trigger that asks the app to generate a monthly report and emails it. All report generation logic (generateMonthlyReport, renderMonthlyReportHtml) stays in packages/reports — this workflow only schedules the call and delivers the result.",
+  "nodes": [
+    {
+      "name": "Cron: 1st of month",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {
+        "triggerTimes": { "item": [{ "mode": "everyMonth", "dayOfMonth": 1, "hour": 8 }] }
+      }
+    },
+    {
+      "name": "HTTP: generate report",
+      "type": "n8n-nodes-base.httpRequest",
+      "notes": "Calls an internal API route in apps/web that runs generateMonthlyReport + renderMonthlyReportHtml for each active location.",
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env[\"APP_URL\"]}}/api/reports/monthly"
+      }
+    },
+    {
+      "name": "Send email",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {
+        "subject": "Monthly Local Presence report",
+        "html": "={{$json[\"html\"]}}"
+      }
+    }
+  ],
+  "connections": {
+    "Cron: 1st of month": { "main": [[{ "node": "HTTP: generate report", "type": "main", "index": 0 }]] },
+    "HTTP: generate report": { "main": [[{ "node": "Send email", "type": "main", "index": 0 }]] }
+  }
+}

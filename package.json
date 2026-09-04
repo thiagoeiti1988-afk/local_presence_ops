@@ -1,0 +1,38 @@
+{
+  "name": "local-presence-ops",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "test": "vitest run",
+    "build": "pnpm -r --if-present run build",
+    "dev": "pnpm --filter @local-presence-ops/web dev",
+    "demo": "tsx scripts/demo.ts"
+  },
+  "dependencies": {
+    "@local-presence-ops/analytics": "workspace:*",
+    "@local-presence-ops/audit": "workspace:*",
+    "@local-presence-ops/content": "workspace:*",
+    "@local-presence-ops/profiles": "workspace:*",
+    "@local-presence-ops/reports": "workspace:*",
+    "@local-presence-ops/reviews": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0",
+    "vitest": "^2.1.8"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}

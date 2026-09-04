@@ -1,0 +1,19 @@
+{
+  "name": "@local-presence-ops/providers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@local-presence-ops/profiles": "workspace:*",
+    "@local-presence-ops/reviews": "workspace:*",
+    "@local-presence-ops/content": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
