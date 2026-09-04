@@ -21,7 +21,11 @@ explicação também vive dentro do produto em `/dashboard/help`.
 5. **Desempenho** (`/dashboard/performance`) — hoje os números são digitados
    à mão (ver "Por que os números são manuais" abaixo). Atualize
    semanalmente ou mensalmente, o que for combinado com o cliente.
-6. **Relatório mensal** (`/dashboard/report`) — a versão para enviar ou
+6. **Concorrência** (`/dashboard/competitors`) — quem mais aparece na
+   Busca/Maps na mesma categoria e raio, e como a nota deles se compara à
+   sua. Dados de exemplo hoje; a versão real usa a API do Google Places
+   (ver [COMPETITIVE.md](COMPETITIVE.md)).
+7. **Relatório mensal** (`/dashboard/report`) — a versão para enviar ou
    apresentar ao cliente: score, avaliações, desempenho, pendências e
    recomendações em uma página só. Use "Abrir versão para impressão/PDF"
    e o Ctrl/Cmd+P do navegador ("Salvar como PDF") para exportar — não há

@@ -6,6 +6,7 @@ export * from "./business-profile/google-business-profile-provider.js";
 
 export * from "./competitive/competitive-discovery-provider.js";
 export * from "./competitive/mock-competitive-discovery-provider.js";
+export * from "./competitive/google-places-competitive-discovery-provider.js";
 
 export * from "./whatsapp/whatsapp-provider.js";
 export * from "./whatsapp/manual-whatsapp-provider.js";

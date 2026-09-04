@@ -8,6 +8,10 @@ import type { LocalPost } from "@local-presence-ops/content";
 import type { Client, Location } from "@local-presence-ops/profiles";
 import type { Review } from "@local-presence-ops/reviews";
 import { generateMonthlyReport, type MonthlyReport } from "@local-presence-ops/reports";
+import {
+  MockCompetitiveDiscoveryProvider,
+  type CompetitorSummary,
+} from "@local-presence-ops/providers";
 
 const CLIENT_ID = "d3f1c1e0-0000-4000-8000-000000000001";
 const LOCATION_ID = "d3f1c1e0-0000-4000-8000-000000000002";
@@ -38,6 +42,8 @@ export const DEMO_LOCATION: Location = {
   secondaryCategories: ["Cosmetic dentist", "Emergency dental service"],
   openingHours: null, // incomplete on purpose — matches the demo scenario
   bookingUrl: null,
+  latitude: -23.5505,
+  longitude: -46.6333,
   status: "active",
 };
 
@@ -256,6 +262,8 @@ export function buildDemoMonthlyReport(audit: LocalPresenceAudit): MonthlyReport
   });
 }
 
+const competitiveDiscoveryProvider = new MockCompetitiveDiscoveryProvider();
+
 export interface DemoRepository {
   client: Client;
   location: Location;
@@ -264,6 +272,7 @@ export interface DemoRepository {
   audit: LocalPresenceAudit;
   report: MonthlyReport;
   performance: ReturnType<typeof compareMonthOverMonth>;
+  competitors: CompetitorSummary[];
 }
 
 let cached: DemoRepository | null = null;
@@ -271,9 +280,10 @@ let cached: DemoRepository | null = null;
 export async function getDemoRepository(): Promise<DemoRepository> {
   if (cached) return cached;
 
-  const [reviews, posts] = await Promise.all([
+  const [reviews, posts, competitors] = await Promise.all([
     buildDemoReviewDrafts(),
     buildDemoPosts(),
+    competitiveDiscoveryProvider.findNearbyCompetitors(LOCATION_ID, 5),
   ]);
   const audit = buildDemoAudit();
   const report = buildDemoMonthlyReport(audit);
@@ -290,6 +300,7 @@ export async function getDemoRepository(): Promise<DemoRepository> {
     audit,
     report,
     performance,
+    competitors,
   };
   return cached;
 }

@@ -18,6 +18,8 @@ const LOCATION: Location = {
   secondaryCategories: [],
   openingHours: null,
   bookingUrl: null,
+  latitude: null,
+  longitude: null,
   status: "active",
 };
 

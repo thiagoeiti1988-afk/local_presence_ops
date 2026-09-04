@@ -57,6 +57,12 @@ export const locationSchema = z.object({
 
   googleProfileUrl: optionalSafeUrl,
 
+  // Only needed for GooglePlacesCompetitiveDiscoveryProvider (Nearby Search
+  // requires coordinates, not an address string) — null until geocoded or
+  // entered manually. See packages/providers/src/competitive/.
+  latitude: z.number().min(-90).max(90).nullable().default(null),
+  longitude: z.number().min(-180).max(180).nullable().default(null),
+
   primaryCategory: z.string().min(1),
   secondaryCategories: z.array(z.string().min(1)).default([]),
 

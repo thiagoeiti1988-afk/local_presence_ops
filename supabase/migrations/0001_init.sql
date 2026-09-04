@@ -61,6 +61,11 @@ create table if not exists locations (
   website text,
   google_profile_url text,
 
+  -- Only needed for GooglePlacesCompetitiveDiscoveryProvider (Nearby Search
+  -- requires coordinates) — see packages/providers/src/competitive/.
+  latitude double precision check (latitude between -90 and 90),
+  longitude double precision check (longitude between -180 and 180),
+
   primary_category text not null,
   secondary_categories text[] not null default '{}',
 

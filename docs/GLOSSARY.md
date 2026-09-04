@@ -22,6 +22,11 @@ avaliações, posts). Implementações: `Mock` (fixo, testes), `RuleBased`
 (templates, o padrão hoje) e `OpenAI` (opcional, só ativa com uma chave de
 API configurada).
 
+**CompetitiveDiscoveryProvider ("Farol")** — a interface que descobre
+concorrentes próximos de uma unidade, exibida em `/dashboard/competitors`.
+`Mock` (dados de exemplo, o padrão hoje) e `GooglePlaces` (implementação
+real via API do Google Places — ver [COMPETITIVE.md](COMPETITIVE.md)).
+
 **Escalado (Escalated)** — status de uma avaliação sensível demais para uma
 resposta padrão; precisa de uma decisão específica de alguém, fora do fluxo
 automático de rascunho.

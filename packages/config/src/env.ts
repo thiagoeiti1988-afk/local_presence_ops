@@ -12,6 +12,7 @@ export const envSchema = z.object({
   OPENAI_API_KEY: z.string().min(1).optional(),
   GOOGLE_CLIENT_ID: z.string().min(1).optional(),
   GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+  GOOGLE_PLACES_API_KEY: z.string().min(1).optional(),
   APP_URL: z.string().url().default("http://localhost:3000"),
   USE_DEMO_DATA: z
     .string()
