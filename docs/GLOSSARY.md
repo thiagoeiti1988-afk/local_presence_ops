@@ -37,6 +37,11 @@ já dentro da fila de follow-up T+0/T+24h/T+72h. Hoje vive em memória (some
 em um novo deploy) até haver um Supabase real conectado — ver
 `supabase/migrations/0002_leads.sql`.
 
+**LGPD (Lei Geral de Proteção de Dados)** — lei brasileira que rege o
+tratamento de dados pessoais; se aplica aos dados coletados no formulário
+público `/audit` (telefone, nome do negócio). Ver [LGPD.md](LGPD.md) para
+base legal, direitos do titular e pendências.
+
 **Local Presence Score** — a nota de 0 a 100 que resume a presença de uma
 unidade no Google. Determinística (sem IA no cálculo) — ver
 [AUDIT_SCORE.md](AUDIT_SCORE.md).

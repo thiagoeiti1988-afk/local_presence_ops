@@ -34,7 +34,9 @@ application-layer mirror, with extra validation like URL sanitization):
   sending) drive the follow-up queue in `packages/followup` — see
   [WHATSAPP.md](WHATSAPP.md). The web app's demo implementation
   (`apps/web/lib/leads-store.ts`) keeps this in memory only — see
-  docs/DEPLOYMENT.md for wiring it to real Supabase.
+  docs/DEPLOYMENT.md for wiring it to real Supabase. `phone` is personal
+  data under LGPD — see [LGPD.md](LGPD.md) for the legal basis, data
+  subject rights, and current gaps (no self-service deletion yet).
 
 ## Multi-tenancy
 
