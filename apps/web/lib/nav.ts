@@ -18,6 +18,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: "/dashboard/posts", label: "Publicações" },
       { href: "/dashboard/performance", label: "Desempenho" },
       { href: "/dashboard/locations", label: "Unidades" },
+      { href: "/dashboard/leads", label: "Leads" },
     ],
   },
   {

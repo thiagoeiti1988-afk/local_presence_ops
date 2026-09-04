@@ -25,6 +25,12 @@ application-layer mirror, with extra validation like URL sanitization):
   [GOOGLE_API.md](GOOGLE_API.md)).
 - **Audit** (stored snapshot of a `LocalPresenceAudit` run) —
   `clientId, locationId, generatedAt, score, sections (jsonb)`.
+- **Lead** — a prospect captured from the public `/audit` form:
+  `businessName, city, website, googleProfileUrl, score, createdAt`. No
+  `clientId` — a lead isn't a tenant yet, so it's the one table that skips
+  the tenant-isolation RLS pattern (see `0002_leads.sql`). The web app's
+  demo implementation (`apps/web/lib/leads-store.ts`) keeps this in memory
+  only — see docs/DEPLOYMENT.md for wiring it to real Supabase.
 
 ## Multi-tenancy
 

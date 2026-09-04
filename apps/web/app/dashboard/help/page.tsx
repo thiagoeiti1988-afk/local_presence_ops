@@ -32,6 +32,10 @@ export default function HelpPage() {
           <strong>Desempenho</strong> — atualize os números manualmente (por
           enquanto — veja por quê abaixo) e acompanhe a variação mês a mês.
         </li>
+        <li>
+          <strong>Leads</strong> — toda auditoria rodada no formulário
+          público vira um registro aqui, pra acompanhar prospects.
+        </li>
       </ol>
 
       <h2 className="section-title">Local Presence Score</h2>

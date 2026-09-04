@@ -2,6 +2,8 @@
 
 import { z } from "zod";
 import { buildAudit, type LocalPresenceAudit } from "@local-presence-ops/audit";
+import { sanitizeUrl } from "@local-presence-ops/config";
+import { buildLeadFromAudit } from "../../lib/leads-store";
 
 const auditFormSchema = z.object({
   businessName: z.string().min(1),
@@ -90,6 +92,13 @@ export async function runManualAudit(
     averageRating: input.averageRating ?? null,
     unansweredReviews: input.unansweredReviews ?? null,
     latestPostDaysAgo: input.latestPostDaysAgo ?? null,
+  });
+
+  buildLeadFromAudit(audit, {
+    businessName: input.businessName,
+    city: input.city,
+    website: sanitizeUrl(input.website ?? null),
+    googleProfileUrl: sanitizeUrl(input.googleProfileUrl ?? null),
   });
 
   return { audit, businessName: input.businessName };

@@ -26,6 +26,11 @@ API configurada).
 resposta padrão; precisa de uma decisão específica de alguém, fora do fluxo
 automático de rascunho.
 
+**Lead** — um registro criado automaticamente sempre que alguém roda uma
+auditoria no formulário público (`/audit`). Aparece em `/dashboard/leads`.
+Hoje vive em memória (some em um novo deploy) até haver um Supabase real
+conectado — ver `supabase/migrations/0002_leads.sql`.
+
 **Local Presence Score** — a nota de 0 a 100 que resume a presença de uma
 unidade no Google. Determinística (sem IA no cálculo) — ver
 [AUDIT_SCORE.md](AUDIT_SCORE.md).

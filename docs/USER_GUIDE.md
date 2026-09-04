@@ -44,7 +44,8 @@ reunião: cada item tem um selo de status (✓/!/▲/✕), uma descrição do qu
 observado, e uma ação recomendada em uma frase — nada de jargão técnico. Use
 o formulário público (`/audit`) para gerar uma auditoria de um prospect
 antes de ele virar cliente — é a mesma lógica de cálculo, sem precisar de
-acesso ao painel interno dele.
+acesso ao painel interno dele. Toda auditoria rodada por lá vira um registro
+em `/dashboard/leads`, pra equipe acompanhar quem já foi avaliado.
 
 ## O fluxo de aprovação de avaliações, na prática
 
@@ -87,5 +88,10 @@ configuração trivial — ela muda o que "bom" significa para todo cliente ao
 mesmo tempo. Veja [AUDIT_SCORE.md](AUDIT_SCORE.md) antes de mexer.
 
 **O formulário público em `/audit` salva os dados em algum lugar?**
-Não neste MVP — ele calcula o score na hora e mostra na tela, sem persistir.
-É uma calculadora, não um cadastro.
+Sim — cada auditoria roda o cálculo na hora **e** grava um lead (nome do
+negócio, cidade, score, links) na lista em `/dashboard/leads`. Essa lista
+hoje vive na memória do processo do servidor: funciona para acompanhar
+prospects no dia a dia, mas some se o app reiniciar ou for feito um novo
+deploy — para persistência de verdade entre deploys, é preciso conectar um
+Supabase real (tabela `leads`, já criada em
+`supabase/migrations/0002_leads.sql`).
