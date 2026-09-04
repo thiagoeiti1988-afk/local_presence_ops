@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:types": "eslint --config eslint.typed.config.mjs .",
     "typecheck": "pnpm -r --if-present run typecheck",
     "test": "vitest run",
     "build": "pnpm -r --if-present run build",
