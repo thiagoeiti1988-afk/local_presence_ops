@@ -26,47 +26,57 @@ export class MockBusinessProfileProvider implements BusinessProfileProvider {
     this.performance.set(locationId, snapshots);
   }
 
-  async getLocation(locationId: string): Promise<Location> {
+  // Not declared `async`: none of these bodies await anything, and wrapping
+  // every return in Promise.resolve()/Promise.reject() (rather than just
+  // dropping `async`) keeps a thrown error a rejected promise instead of a
+  // synchronous throw — the same pitfall documented in
+  // google-business-profile-provider.ts.
+
+  getLocation(locationId: string): Promise<Location> {
     const location = this.locations.get(locationId);
-    if (!location) throw new Error(`No mock location seeded for ${locationId}`);
-    return location;
+    if (!location) {
+      return Promise.reject(new Error(`No mock location seeded for ${locationId}`));
+    }
+    return Promise.resolve(location);
   }
 
-  async getReviews(locationId: string): Promise<Review[]> {
-    return this.reviews.get(locationId) ?? [];
+  getReviews(locationId: string): Promise<Review[]> {
+    return Promise.resolve(this.reviews.get(locationId) ?? []);
   }
 
-  async replyToReview(reviewId: string, reply: string): Promise<void> {
+  replyToReview(reviewId: string, reply: string): Promise<void> {
     for (const list of this.reviews.values()) {
       const review = list.find((r) => r.id === reviewId);
       if (review) {
         review.reply = reply;
         review.replyStatus = "published";
         review.status = "replied";
-        return;
+        return Promise.resolve();
       }
     }
-    throw new Error(`No mock review found for ${reviewId}`);
+    return Promise.reject(new Error(`No mock review found for ${reviewId}`));
   }
 
-  async getPerformance(
+  getPerformance(
     locationId: string,
     from: string,
     to: string,
   ): Promise<PerformanceSnapshot[]> {
     const all = this.performance.get(locationId) ?? [];
-    return all.filter((snapshot) => snapshot.date >= from && snapshot.date <= to);
+    return Promise.resolve(
+      all.filter((snapshot) => snapshot.date >= from && snapshot.date <= to),
+    );
   }
 
-  async createPost(post: NewLocalPost): Promise<LocalPost> {
+  createPost(post: NewLocalPost): Promise<LocalPost> {
     const created: LocalPost = { id: crypto.randomUUID(), ...post };
     const existing = this.posts.get(post.locationId) ?? [];
     this.posts.set(post.locationId, [...existing, created]);
-    return created;
+    return Promise.resolve(created);
   }
 
-  async updateLocation(location: Location): Promise<Location> {
+  updateLocation(location: Location): Promise<Location> {
     this.locations.set(location.id, location);
-    return location;
+    return Promise.resolve(location);
   }
 }

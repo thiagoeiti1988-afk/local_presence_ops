@@ -36,4 +36,14 @@ export default [
       "@typescript-eslint/require-await": "warn",
     },
   },
+  {
+    // Next.js Server Actions must be declared `async` for the framework's
+    // compiler to recognize them — see the comment on runManualAudit in
+    // this file. Not a suppression of a real finding; the rule's premise
+    // ("async with nothing to await") doesn't hold for this call site.
+    files: ["apps/web/app/audit/actions.ts"],
+    rules: {
+      "@typescript-eslint/require-await": "off",
+    },
+  },
 ];

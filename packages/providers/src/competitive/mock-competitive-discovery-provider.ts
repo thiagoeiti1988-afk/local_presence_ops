@@ -6,11 +6,11 @@ import type {
 export class MockCompetitiveDiscoveryProvider
   implements CompetitiveDiscoveryProvider
 {
-  async findNearbyCompetitors(
+  findNearbyCompetitors(
     _locationId: string,
     _radiusKm: number,
   ): Promise<CompetitorSummary[]> {
-    return [
+    return Promise.resolve([
       {
         name: "[mock] Competitor A",
         category: "Dentist",
@@ -18,6 +18,6 @@ export class MockCompetitiveDiscoveryProvider
         reviewCount: 88,
         averageRating: 4.3,
       },
-    ];
+    ]);
   }
 }

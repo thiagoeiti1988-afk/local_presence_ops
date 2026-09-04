@@ -11,30 +11,32 @@ import type {
  * default in demo mode — no external calls, no randomness.
  */
 export class MockContentProvider implements ContentProvider {
-  async draftReviewReply(review: Review): Promise<string> {
-    return `Thank you for your feedback, ${review.author}. [mock draft reply]`;
+  draftReviewReply(review: Review): Promise<string> {
+    return Promise.resolve(
+      `Thank you for your feedback, ${review.author}. [mock draft reply]`,
+    );
   }
 
-  async draftPost(input: DraftPostInput): Promise<DraftedPost> {
-    return {
+  draftPost(input: DraftPostInput): Promise<DraftedPost> {
+    return Promise.resolve({
       title: `[mock] ${input.type} — ${input.topic}`,
       body: `This is a mock ${input.type} post about ${input.topic} for ${input.businessName}.`,
       cta: input.type === "offer" ? "Book now" : null,
-    };
+    });
   }
 
-  async summarizeReviews(reviews: Review[]): Promise<ReviewsSummary> {
+  summarizeReviews(reviews: Review[]): Promise<ReviewsSummary> {
     const rated = reviews.filter((r) => typeof r.rating === "number");
     const averageRating =
       rated.length === 0
         ? null
         : rated.reduce((sum, r) => sum + r.rating, 0) / rated.length;
 
-    return {
+    return Promise.resolve({
       totalReviews: reviews.length,
       averageRating,
       topPositiveThemes: ["[mock] friendly staff"],
       topNegativeThemes: ["[mock] wait times"],
-    };
+    });
   }
 }

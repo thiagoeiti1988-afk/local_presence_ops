@@ -42,16 +42,16 @@ const POST_TEMPLATES: Record<
  * branch on review sentiment / post type.
  */
 export class RuleBasedContentProvider implements ContentProvider {
-  async draftReviewReply(review: Review): Promise<string> {
+  draftReviewReply(review: Review): Promise<string> {
     const sentiment = classifyReview(review.rating);
-    return REPLY_TEMPLATES[sentiment](review.author);
+    return Promise.resolve(REPLY_TEMPLATES[sentiment](review.author));
   }
 
-  async draftPost(input: DraftPostInput): Promise<DraftedPost> {
-    return POST_TEMPLATES[input.type](input);
+  draftPost(input: DraftPostInput): Promise<DraftedPost> {
+    return Promise.resolve(POST_TEMPLATES[input.type](input));
   }
 
-  async summarizeReviews(reviews: Review[]): Promise<ReviewsSummary> {
+  summarizeReviews(reviews: Review[]): Promise<ReviewsSummary> {
     const rated = reviews.filter((r) => typeof r.rating === "number");
     const averageRating =
       rated.length === 0
@@ -61,13 +61,13 @@ export class RuleBasedContentProvider implements ContentProvider {
     const positive = reviews.filter((r) => classifyReview(r.rating) === "positive");
     const negative = reviews.filter((r) => classifyReview(r.rating) === "negative");
 
-    return {
+    return Promise.resolve({
       totalReviews: reviews.length,
       averageRating,
       topPositiveThemes:
         positive.length > 0 ? [`${positive.length} positive review(s)`] : [],
       topNegativeThemes:
         negative.length > 0 ? [`${negative.length} negative review(s)`] : [],
-    };
+    });
   }
 }

@@ -33,6 +33,12 @@ function emptyToUndefined(value: FormDataEntryValue | null): string | undefined 
  * whoever is looking at the client's live Google Business Profile and typing
  * in what they see. See docs/GOOGLE_API.md for why.
  */
+// Pulled out of the require-await burn-down deliberately: Next.js Server
+// Actions must be declared `async` for the framework's compiler to
+// recognize and wire them up at all — this isn't the "async with no await"
+// pattern the rule is built for, and removing `async` here would break the
+// action, not just the lint warning. The rule is turned off for this file
+// specifically in eslint.typed.config.mjs, with the same justification.
 export async function runManualAudit(
   formData: FormData,
 ): Promise<{ audit: LocalPresenceAudit; businessName: string } | { error: string }> {
